@@ -31,30 +31,29 @@ class MainActivity : AppCompatActivity() {
         //create the button listener or click action
         calculateButton.setOnClickListener {
          //Retrieve the inputs from the EditText fields
-         val num1String= input1.text.toString()
-         val num2String=input2.text.toString()
+         val num1String= input1.text.toString().trim()
+         val num2String=input2.text.toString().trim()
 
-        //Check if both fields are not empty
-        if(num1String.isNotEmpty()&& num2String.isNotEmpty()) {
-         //Convert the input strings to integers
+        
+        if(num1String.isEmpty()|| num2String.isEmpty()) {
+            Toast.makeText(this, "Please enter both numbers", Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+        }
+
             val num1=num1String.toIntOrNull()
             val num2=num2String.toIntOrNull()
 
-            //Check if both inputs are valid integers
-            if (num1 != null&& num2 != null) {
-              //Perform the addition
-              val result= num1 + num2
 
-              //Display the result in the TextView
-              answer.text="Answer:$result"
-            }else{
-                //Show a Toast if the inputs are not valid integers
-                Toast.makeText(this,"Please enter valid numbers",Toast.LENGTH_SHORT) .show()
+            if (num1 == null || num2 == null) {
+                Toast.makeText(this, "Please enter valid whole numbers", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-        } else{
-            //Show a Toast if any of the input fields are empty
-            Toast.makeText(this,"Please enter both numbers",Toast.LENGTH_SHORT) .show()
-        }
+
+              val result=num1+num2
+              answer.text="Answer:$result"
+
+
+
         }
     }
 }
