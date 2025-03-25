@@ -1,8 +1,11 @@
 package vcmsa.sibonga.mathapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,14 +31,14 @@ class MainActivity : AppCompatActivity() {
         val input2 = findViewById<EditText>(R.id.editTextText2)
         val calculateButton = findViewById<Button>(R.id.button)
         val answer = findViewById<TextView>(R.id.textView)
+        val radioGroup=findViewById<RadioGroup>(R.id.radioGroup)
+        val radioAddition=findViewById<RadioButton>(R.id.radioAddition)
+        val radioSubtraction=findViewById<RadioButton>(R.id.radioSubtraction)
 
-        //create the button listener or click action
         calculateButton.setOnClickListener {
-         //Retrieve the inputs from the EditText fields
          val num1String= input1.text.toString().trim()
          val num2String=input2.text.toString().trim()
 
-        
         if(num1String.isEmpty()|| num2String.isEmpty()) {
             Toast.makeText(this, "Please enter both numbers", Toast.LENGTH_SHORT).show()
             return@setOnClickListener
@@ -49,10 +53,21 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-              val result=num1+num2
-              answer.text="Answer:$result"
+              val result:Int
+              val operation: String
 
+              if(radioAddition.isChecked) {
+                  result= num1+num2
+                  operation="Addition"
+              }   else if (radioSubtraction.isChecked) {
+                  result= num1 - num2
+                  operation="Subtraction"
+              } else{
+                  Toast.makeText(this,"Please select an operation",Toast.LENGTH_SHORT). show()
+                  return@setOnClickListener
+              }
 
+                answer.text="$operation Result:$result"
 
         }
     }
